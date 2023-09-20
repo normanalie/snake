@@ -89,3 +89,15 @@ void snake_move(Snake *snake){
   }
   return;
 }
+
+SnakeElem* snake_get_tail(Snake* snake){
+  SnakeElem *elem = snake->head;
+  while(elem->next != NULL){
+    elem = elem->next;
+  }
+  return elem;
+}
+
+SnakeElem* snake_get_head(Snake *snake){
+  return snake->head;
+}

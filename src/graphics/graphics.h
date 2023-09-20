@@ -21,6 +21,9 @@
 // #############################################
 
 
+#ifndef GRAPHICSH
+#define GRAPHICSH
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -256,3 +259,5 @@ void souris_invisible();
 
 	// 9.1 Renvoie la distance entre deux points
 	int distance(POINT P1, POINT P2);
+
+#endif
