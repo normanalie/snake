@@ -11,7 +11,7 @@ dir:
 
 build: build/graphics.o build/main.o build/models
 
-build/: build/snake.o
+build/models: build/snake.o
 
 build/main.o: src/main.c
 	$(CC) $(CFLAGS) -c src/main.c -o build/main.o 

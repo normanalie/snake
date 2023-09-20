@@ -5,7 +5,7 @@
 int main(){
   Snake *snake;
   snake = snake_init(10, 10, RIGHT);
-  init_graphics(480, 850);
+  init_graphics(100, 300);
   wait_escape();
   exit(0);
 }
