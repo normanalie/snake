@@ -56,3 +56,36 @@ void snake_free(Snake *snake){
 
   return;
 }
+
+void snake_move(Snake *snake){
+  int prevX = snake->head->x;
+  int prevY = snake->head->y;
+
+  switch (snake->dir) {
+    case UP:
+      snake->head->y++;
+      break;
+    case DOWN:
+      snake->head->y--;
+      break;
+    case LEFT:
+      snake->head->x--;
+      break;
+    case RIGHT:
+      snake->head->x++;
+      break;
+  }
+
+  SnakeElem *curr = snake->head->next;
+  int tmp;
+  while(curr != NULL){
+    tmp = curr->x;
+    curr->x = prevX;
+    prevX = tmp;
+    tmp = curr->y;
+    curr->y = prevY;
+    prevY = tmp;
+    curr = curr->next;
+  }
+  return;
+}

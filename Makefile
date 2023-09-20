@@ -19,13 +19,14 @@ build/main.o: src/main.c
 build/snake.o: src/models/snake.c src/models/snake.h
 	$(CC) $(CFLAGS) -c src/models/snake.c -o build/snake.o
 
+POLICEH=src/graphics/police.h
 build/graphics.o: src/graphics/graphics.c src/graphics/graphics.h
-	rm -f src/graphics/police.h
-	touch src/graphics/police.h
-	if test -e /usr/include/SDL_ttf.h;           then echo "#define SDL_TTF_OK" > police.h; fi
-	if test -e /usr/include/SDL/SDL_ttf.h;       then echo "#define SDL_TTF_OK" > police.h; fi
-	if test -e /usr/local/include/SDL_ttf.h;     then echo "#define SDL_TTF_OK" > police.h; fi
-	if test -e /usr/local/include/SDL/SDL_ttf.h; then echo "#define SDL_TTF_OK" > police.h; fi
+	rm -f $(POLICEH)
+	touch $(POLICEH)
+	if test -e /usr/include/SDL_ttf.h;           then echo "#define SDL_TTF_OK" > $(POLICEH); fi
+	if test -e /usr/include/SDL/SDL_ttf.h;       then echo "#define SDL_TTF_OK" > $(POLICEH); fi
+	if test -e /usr/local/include/SDL_ttf.h;     then echo "#define SDL_TTF_OK" > $(POLICEH); fi
+	if test -e /usr/local/include/SDL/SDL_ttf.h; then echo "#define SDL_TTF_OK" > $(POLICEH); fi
 	$(CC) $(CFLAGS) -c src/graphics/graphics.c -o build/graphics.o
 
 

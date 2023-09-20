@@ -36,7 +36,7 @@
 #ifdef SDL_TTF_OK
 	#include <SDL/SDL_ttf.h>
 	#include <SDL/SDL_ttf.h>
-	#define POLICE_NAME "verdana.ttf"
+	#define POLICE_NAME "lib/font/verdana.ttf"
 	TTF_Font *police[256];
 	int verdana_ok = 0;
 #endif
@@ -110,7 +110,7 @@ void init_graphics(int W, int H)
 		TTF_Init();
         	police[10] = TTF_OpenFont(POLICE_NAME, 10);
 		if (police[10])  {verdana_ok=1; printf("police %s OK : affichage graphique OK.\n",POLICE_NAME);}
-			else {verdana_ok = 0; printf("police %s absente : affichage dans la console.\n",POLICE_NAME);}
+		else {verdana_ok = 0; printf("police %s absente : affichage dans la console.\n",POLICE_NAME);}
 	#else
 		printf("SDL_ttf absent : affichage dans la console.\n");
 	#endif

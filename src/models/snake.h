@@ -23,5 +23,5 @@ struct Snake {
 Snake* snake_init(int x, int y, direction dir);
 void snake_free(Snake *snake);
 void snake_grow(Snake *snake); 
-
+void snake_move(Snake *snake);
 #endif
