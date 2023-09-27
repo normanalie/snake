@@ -1,5 +1,6 @@
 #include "snake.h"
 #include "graphics/graphics.h"
+#include "view.h"
 
 Snake* snake_init(int x, int y, direction dir){
   Snake *snake;
@@ -24,18 +25,18 @@ void snake_grow(Snake *snake){
   switch (snake->dir) {
     case UP:
       new->x = snake->head->x;
-      new->y = snake->head->y+1;
+      new->y = snake->head->y+ZOOMFACTOR;
       break;
     case DOWN:
       new->x = snake->head->x;
-      new->y = snake->head->y-1;
+      new->y = snake->head->y-ZOOMFACTOR;
       break;
     case LEFT:
-      new->x = snake->head->x-1;
+      new->x = snake->head->x-ZOOMFACTOR;
       new->y = snake->head->y;
       break;
     case RIGHT:
-      new->x = snake->head->x+1;
+      new->x = snake->head->x+ZOOMFACTOR;
       new->y = snake->head->y;
       break;
     case NO_DIR:
@@ -67,16 +68,16 @@ void snake_move(Snake *snake){
   int SPEED = 2;
   switch (snake->dir) {
     case UP:
-      snake->head->y += SPEED;
+      snake->head->y += ZOOMFACTOR*SPEED;
       break;
     case DOWN:
-      snake->head->y -= SPEED;
+      snake->head->y -= ZOOMFACTOR*SPEED;
       break;
     case LEFT:
-      snake->head->x -= SPEED;
+      snake->head->x -= ZOOMFACTOR*SPEED;
       break;
     case RIGHT:
-      snake->head->x += SPEED;
+      snake->head->x += ZOOMFACTOR*SPEED;
       break;
     case NO_DIR:
       return;

@@ -11,7 +11,12 @@ direction get_direction();
 void update(Snake* snake, Fruit* fruit, int* score);
 void refresh(Snake* snake, Fruit* fruit, int score);
 
-int main(){
+int main(int argc, char *argv[]){
+  int HEIGHT = DEFAULT_SIZE;
+  if(argc == 2){
+    HEIGHT = atoi(argv[1]);
+  }
+  int WIDTH = HEIGHT;
   Snake *snake;
   snake = snake_init(100, 100, RIGHT);
   snake_grow(snake);
@@ -23,16 +28,19 @@ int main(){
   draw(fruit->pos, FRUIT);
 
   int score = 0;
-
+  
+  int dt = 0;
   while(1){
+    attendre(200-dt);
+    chrono_start();
     update(snake, fruit, &score);
-    refresh(snake, fruit, score);
+    refresh(snake, fruit, score); 
+    dt = (int)(chrono_val()*1000);
   }
   exit(0);
 }
 
 void update(Snake* snake, Fruit* fruit, int *score){
-  attendre(20);
   snake_move(snake);
 
   direction newDir = get_direction();
@@ -56,9 +64,10 @@ void update(Snake* snake, Fruit* fruit, int *score){
   POINT snakeHead;
   snakeHead.x = snake_get_head(snake)->x;
   snakeHead.y = snake_get_head(snake)->y;
-  if(distance(snakeHead, fruit->pos) < ZOOMFACTOR){
+  if(distance(snakeHead, fruit->pos) < (ZOOMFACTOR*2)){
     fruit->pos = fruit_generate(WIDTH, HEIGHT, ZOOMFACTOR)->pos;
     *score = *score+1;
+    snake_grow(snake);
   }
 }
 
