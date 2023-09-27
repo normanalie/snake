@@ -37,6 +37,9 @@ void snake_grow(Snake *snake){
       new->x = snake->head->x+1;
       new->y = snake->head->y;
       break;
+    case NO_DIR:
+      return;
+      break;
   }
 
   new->next = snake->head;
@@ -73,6 +76,9 @@ void snake_move(Snake *snake){
       break;
     case RIGHT:
       snake->head->x += SPEED;
+      break;
+    case NO_DIR:
+      return;
       break;
   }
 

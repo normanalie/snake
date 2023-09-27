@@ -27,8 +27,6 @@ int main(){
   while(1){
     update(snake, fruit, &score);
     refresh(snake, fruit, score);
-    direction newDir = get_direction();
-    if(newDir) snake->dir = newDir;
   }
   exit(0);
 }
@@ -36,6 +34,25 @@ int main(){
 void update(Snake* snake, Fruit* fruit, int *score){
   attendre(20);
   snake_move(snake);
+
+  direction newDir = get_direction();
+  switch (newDir) {
+    case UP:
+      if(snake->dir != DOWN) snake->dir = newDir;
+      break;
+    case DOWN:
+      if(snake->dir != UP) snake->dir = newDir;
+      break;
+    case RIGHT:
+      if(snake->dir != LEFT) snake->dir = newDir;
+      break;
+    case LEFT:
+      if(snake->dir != RIGHT) snake->dir = newDir;
+      break;
+    case NO_DIR:
+      break;
+  }
+
   POINT snakeHead;
   snakeHead.x = snake_get_head(snake)->x;
   snakeHead.y = snake_get_head(snake)->y;
