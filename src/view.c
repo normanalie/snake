@@ -29,6 +29,9 @@ void draw(POINT point, CellType type){
     case BODY:
       draw_fill_circle(point, ZOOMFACTOR, jaune);
       break;
+    case FRUIT:
+      draw_fill_circle(point, ZOOMFACTOR, red);
+      break;
     case BG:
       draw_fill_circle(point, ZOOMFACTOR*2, black);
       break;
@@ -36,6 +39,20 @@ void draw(POINT point, CellType type){
   return;
 }
 
-void update(){
-  synchro();
+void view_erase(){
+  POINT origin, end;
+  origin.x = 0;
+  origin.y = 0;
+  end.x = WIDTH;
+  end.y = HEIGHT; 
+  draw_fill_rectangle(origin, end, black);
+}
+
+void view_score(int score){
+  char scoreText[30];
+  POINT scoreTextOrigin;
+  scoreTextOrigin.x = 10;
+  scoreTextOrigin.y = 40;
+  sprintf(scoreText, "Score: %d", score);
+  aff_pol(scoreText, 22, scoreTextOrigin, white);
 }

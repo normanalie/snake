@@ -10,12 +10,13 @@ typedef enum CellType{
 	HEAD,
 	BODY,
 	WALL,
+	FRUIT,
 	BG 
 } CellType;
 
 void view_init(int w, int h);
 void draw(POINT point, CellType type);
-void update();
-
+void view_erase();
+void view_score(int score);
 
 #endif // !DEBUG

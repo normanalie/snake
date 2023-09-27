@@ -60,19 +60,19 @@ void snake_free(Snake *snake){
 void snake_move(Snake *snake){
   int prevX = snake->head->x;
   int prevY = snake->head->y;
-
+  int SPEED = 2;
   switch (snake->dir) {
     case UP:
-      snake->head->y++;
+      snake->head->y += SPEED;
       break;
     case DOWN:
-      snake->head->y--;
+      snake->head->y -= SPEED;
       break;
     case LEFT:
-      snake->head->x--;
+      snake->head->x -= SPEED;
       break;
     case RIGHT:
-      snake->head->x++;
+      snake->head->x += SPEED;
       break;
   }
 
