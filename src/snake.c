@@ -1,4 +1,5 @@
 #include "snake.h"
+#include "graphics/graphics.h"
 
 Snake* snake_init(int x, int y, direction dir){
   Snake *snake;
@@ -81,6 +82,10 @@ void snake_move(Snake *snake){
       return;
       break;
   }
+  if(snake->head->x < 0) snake->head->x = WIDTH;
+  if(snake->head->x > WIDTH) snake->head->x = 0;
+  if(snake->head->y < 0) snake->head->y = HEIGHT;
+  if(snake->head->y > HEIGHT) snake->head->y = 0;
 
   SnakeElem *curr = snake->head->next;
   int tmp;
