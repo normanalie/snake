@@ -1,6 +1,7 @@
 #include "snake.h"
 #include "graphics/graphics.h"
 #include "view.h"
+#include <stdlib.h>
 
 Snake* snake_init(int x, int y, direction dir){
   Snake *snake;
@@ -14,6 +15,10 @@ Snake* snake_init(int x, int y, direction dir){
 
   snake->head = head;
   snake->dir = dir;
+  snake->speed = 2;
+  snake->oldTailPos = (POINT*) malloc(sizeof(POINT));
+  snake->oldTailPos->x = x;
+  snake->oldTailPos->y = y;
 
   return snake;
 }
@@ -25,18 +30,18 @@ void snake_grow(Snake *snake){
   switch (snake->dir) {
     case UP:
       new->x = snake->head->x;
-      new->y = snake->head->y+ZOOMFACTOR;
+      new->y = snake->head->y+ZOOMFACTOR*snake->speed;
       break;
     case DOWN:
       new->x = snake->head->x;
-      new->y = snake->head->y-ZOOMFACTOR;
+      new->y = snake->head->y-ZOOMFACTOR*snake->speed;
       break;
     case LEFT:
-      new->x = snake->head->x-ZOOMFACTOR;
+      new->x = snake->head->x-ZOOMFACTOR*snake->speed;
       new->y = snake->head->y;
       break;
     case RIGHT:
-      new->x = snake->head->x+ZOOMFACTOR;
+      new->x = snake->head->x+ZOOMFACTOR*snake->speed;
       new->y = snake->head->y;
       break;
     case NO_DIR:
@@ -62,10 +67,10 @@ void snake_free(Snake *snake){
   return;
 }
 
-void snake_move(Snake *snake){
+void snake_move(Snake *snake, int maxX, int maxY){
   int prevX = snake->head->x;
   int prevY = snake->head->y;
-  int SPEED = 2;
+  int SPEED = snake->speed;
   switch (snake->dir) {
     case UP:
       snake->head->y += ZOOMFACTOR*SPEED;
@@ -83,10 +88,10 @@ void snake_move(Snake *snake){
       return;
       break;
   }
-  if(snake->head->x < 0) snake->head->x = WIDTH;
-  if(snake->head->x > WIDTH) snake->head->x = 0;
-  if(snake->head->y < 0) snake->head->y = HEIGHT;
-  if(snake->head->y > HEIGHT) snake->head->y = 0;
+  if(snake->head->x < 0) snake->head->x = maxX;
+  if(snake->head->x > maxX) snake->head->x = 0;
+  if(snake->head->y < 0) snake->head->y = maxY;
+  if(snake->head->y > maxY) snake->head->y = 0;
 
   SnakeElem *curr = snake->head->next;
   int tmp;
@@ -97,6 +102,10 @@ void snake_move(Snake *snake){
     tmp = curr->y;
     curr->y = prevY;
     prevY = tmp;
+    if(curr->next == NULL){
+      snake->oldTailPos->x = curr->x;
+      snake->oldTailPos->y = curr->y;
+    }
     curr = curr->next;
   }
   return;

@@ -3,8 +3,10 @@
 
 #include <stdio.h>
 #include "graphics/graphics.h"
+#include "map.h"
 
 #define ZOOMFACTOR 10
+
 
 typedef enum CellType{
 	HEAD,
@@ -14,9 +16,16 @@ typedef enum CellType{
 	BG 
 } CellType;
 
-void view_init(int w, int h);
-void draw(POINT point, CellType type);
-void view_erase();
-void view_score(int score);
+typedef struct Window{
+	int width;
+	int height;
+	int game_width;
+	int game_height;
+} Window;
 
-#endif // !DEBUG
+Window* view_init(int w);
+void draw(Window window, POINT point, CellType type);
+void view_erase(Window window);
+void view_score(Window window, int score);
+
+#endif

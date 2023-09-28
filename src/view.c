@@ -1,27 +1,34 @@
 #include "view.h"
 #include "graphics/graphics.h"
+#include <stdlib.h>
 
-void view_init(int w, int h){
-  init_graphics(w, h);
-  return;
+Window* view_init(int w){
+  int h = w+50; 
+
+  Window* window = (Window*) malloc(sizeof(Window));
+  window->width = w;
+  window->height = h;
+  window->game_width = w;
+  window->game_height = w;
+
+  init_graphics(window->width, window->height);
+  return window;
 }
 
-void draw_wall(POINT center){
+void draw_wall(Window window, POINT point){
   POINT topRight, botLeft;
-  topRight.x = center.x + (ZOOMFACTOR/2);
-  topRight.y = center.y + (ZOOMFACTOR/2);
-  botLeft.x = center.x - (ZOOMFACTOR/2);
-  botLeft.y = center.y - (ZOOMFACTOR/2);
+  topRight.x = point.x+(window.game_width/MAP_SIZE);
+  topRight.y = point.y+(window.game_height/MAP_SIZE);
+  botLeft.x = point.x;
+  botLeft.y = point.y;
   draw_fill_rectangle(topRight, botLeft, blanc);
   return;
 }
 
-void draw(POINT point, CellType type){ 
+void draw(Window window, POINT point, CellType type){ 
   switch (type) {
     case WALL:
-      point.x = point.x*10;
-      point.y = point.y*10;
-      draw_wall(point);
+      draw_wall(window, point);
       break;
     case HEAD:
       draw_fill_circle(point, ZOOMFACTOR, blanc);
@@ -33,26 +40,40 @@ void draw(POINT point, CellType type){
       draw_fill_circle(point, ZOOMFACTOR, red);
       break;
     case BG:
-      draw_fill_circle(point, ZOOMFACTOR*2, black);
+      draw_fill_circle(point, ZOOMFACTOR, black);
       break;
   }
   return;
 }
 
-void view_erase(){
+void view_erase(Window window){
   POINT origin, end;
   origin.x = 0;
   origin.y = 0;
-  end.x = WIDTH;
-  end.y = HEIGHT; 
+  end.x = window.width;
+  end.y = window.height; 
   draw_fill_rectangle(origin, end, black);
+  return;
 }
 
-void view_score(int score){
+void view_erase_score(Window window){
+  POINT origin, end;
+  origin.x = 0;
+  origin.y = window.game_height;
+  end.x = window.width;
+  end.y = window.height;
+  draw_fill_rectangle(origin, end, black);
+  return;
+}
+
+void view_score(Window window, int score){
+  view_erase_score(window);
   char scoreText[30];
+  int fontSize = 20;
   POINT scoreTextOrigin;
   scoreTextOrigin.x = 10;
-  scoreTextOrigin.y = 40;
+  scoreTextOrigin.y =  window.game_height+fontSize*2;
   sprintf(scoreText, "Score: %d", score);
-  aff_pol(scoreText, 22, scoreTextOrigin, white);
+  aff_pol(scoreText, fontSize, scoreTextOrigin, red);
+  return;
 }
