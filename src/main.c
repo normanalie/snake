@@ -6,14 +6,11 @@
 #include "view.h"
 #include "config.h"
 #include "map.h"
+#include "physic.h"
 
 char map[MAP_SIZE][MAP_SIZE] = MAP;
 
-direction get_direction();
-BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]);
-BOOL check_collide_snake(Window window, POINT point, Snake* snake);
-BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
-BOOL check_collide_points(POINT a, POINT b); 
+direction get_direction(); 
 POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
 BOOL update(Window window, Snake* snake, Fruit* fruit, int* score);
 void refresh(Window window, Snake* snake, Fruit* fruit, int score);
@@ -50,47 +47,6 @@ int main(int argc, char *argv[]){
     dt = (int)(chrono_val()*1000);
   }
   exit(0);
-}
-
-BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
-  int negativeMargin = 9;
-  for(int i=0; i<MAP_SIZE; i++){
-    for(int j=0; j<MAP_SIZE; j++){
-      if(map[i][j] == 'x'){
-        POINT botLeft;
-        botLeft.x = j*(window.game_width/MAP_SIZE);
-        botLeft.y = i*(window.game_height/MAP_SIZE);
-        POINT center;
-        center.x = (botLeft.x+(window.game_width/MAP_SIZE)/2);
-        center.y = (botLeft.y+(window.game_height/MAP_SIZE)/2);
-        if(distance(point, center) < window.game_width/MAP_SIZE+ZOOMFACTOR/2-negativeMargin) return TRUE;
-      }
-    }
-  }
-  return FALSE;
-}
-
-BOOL check_collide_snake(Window window, POINT point, Snake* snake){
-  SnakeElem* elem = snake_get_head(snake);
-  while(elem->next != NULL){
-    POINT elemPoint;
-    elemPoint.x = elem->x;
-    elemPoint.y = elem->y;
-    if(check_collide_points(point, elemPoint)) return TRUE;
-    elem = elem->next;
-  }
-  return FALSE;
-}
-
-BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]){
-  if(check_collide_map(window, point, map)) return TRUE;
-  if(check_collide_snake(window, point, snake)) return TRUE;
-  return FALSE;
-}
-
-BOOL check_collide_points(POINT a, POINT b){
-  if(distance(a, b) < ZOOMFACTOR*2) return TRUE;
-  return FALSE;
 }
 
 POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]){

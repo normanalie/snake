@@ -11,7 +11,7 @@ dir:
 
 build: build/graphics.o build/main.o build/models
 
-build/models: build/snake.o build/view.o build/fruit.o
+build/models: build/snake.o build/view.o build/fruit.o build/physic.o
 
 build/main.o: src/main.c
 	$(CC) $(CFLAGS) -c src/main.c -o build/main.o 
@@ -24,6 +24,9 @@ build/view.o: src/view.h src/view.c
 
 build/fruit.o: src/fruit.h src/fruit.c 
 	$(CC) $(CFLAGS) -c src/fruit.c -o build/fruit.o
+
+build/physic.o: src/physic.h src/physic.c 
+	$(CC) $(CFLAGS) -c src/physic.c -o build/physic.o
 
 POLICEH=src/graphics/police.h
 build/graphics.o: src/graphics/graphics.c src/graphics/graphics.h
