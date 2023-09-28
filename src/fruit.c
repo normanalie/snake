@@ -1,10 +1,14 @@
 #include "fruit.h"
 #include "graphics/graphics.h"
 
-Fruit* fruit_generate(int windowW, int windowH, int zoomfactor){
+Fruit* fruit_init(){
 	Fruit *fruit;
 	fruit = (Fruit*)malloc(sizeof(Fruit));
-	fruit->pos.x = alea_int(windowW-zoomfactor) + zoomfactor;
-	fruit->pos.y = alea_int(windowH-zoomfactor) + zoomfactor;
+	fruit->pos.x = -1; 
+	fruit->pos.y = -1;
+	fruit->oldPos.x = -1;
+	fruit->oldPos.y = -1;
 	return fruit;
+
 }
+

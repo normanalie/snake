@@ -67,6 +67,23 @@ void snake_free(Snake *snake){
   return;
 }
 
+void snake_move_propagate(Snake *snake, int prevX, int prevY){
+  SnakeElem *curr = snake->head->next;
+  int tmp;
+  while(curr != NULL){
+    tmp = curr->x;
+    curr->x = prevX;
+    prevX = tmp;
+    tmp = curr->y;
+    curr->y = prevY;
+    prevY = tmp;
+    curr = curr->next;
+  }
+  snake->oldTailPos->x = prevX;
+  snake->oldTailPos->y = prevY;
+  return;
+}
+
 void snake_move(Snake *snake, int maxX, int maxY){
   int prevX = snake->head->x;
   int prevY = snake->head->y;
@@ -93,21 +110,8 @@ void snake_move(Snake *snake, int maxX, int maxY){
   if(snake->head->y < 0) snake->head->y = maxY;
   if(snake->head->y > maxY) snake->head->y = 0;
 
-  SnakeElem *curr = snake->head->next;
-  int tmp;
-  while(curr != NULL){
-    tmp = curr->x;
-    curr->x = prevX;
-    prevX = tmp;
-    tmp = curr->y;
-    curr->y = prevY;
-    prevY = tmp;
-    if(curr->next == NULL){
-      snake->oldTailPos->x = curr->x;
-      snake->oldTailPos->y = curr->y;
-    }
-    curr = curr->next;
-  }
+  snake_move_propagate(snake, prevX, prevY);
+  
   return;
 }
 

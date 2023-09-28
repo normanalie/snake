@@ -10,7 +10,10 @@
 char map[MAP_SIZE][MAP_SIZE] = MAP;
 
 direction get_direction();
-BOOL check_collide(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]);
+BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]);
+BOOL check_collide_snake(Window window, POINT point, Snake* snake);
+BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
+POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
 BOOL update(Window window, Snake* snake, Fruit* fruit, int* score);
 void refresh(Window window, Snake* snake, Fruit* fruit, int score);
 
@@ -30,11 +33,8 @@ int main(int argc, char *argv[]){
   snake_grow(snake);
 
   Fruit *fruit;
-  do{
-    fruit = fruit_generate(window->game_width, window->game_height, ZOOMFACTOR);
-  }while(check_collide(*window, fruit->pos, map));
-  fruit->oldPos.x = -1;
-  fruit->oldPos.y = -1;
+  fruit = fruit_init();
+  fruit->pos = *find_empty(*window, snake, map);
  
   BOOL inGame = TRUE;
   int dt = 0;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
   exit(0);
 }
 
-BOOL check_collide(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
+BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
   int negativeMargin = 10;
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
@@ -64,6 +64,33 @@ BOOL check_collide(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
     }
   }
   return FALSE;
+}
+
+BOOL check_collide_snake(Window window, POINT point, Snake* snake){
+  SnakeElem* elem = snake_get_head(snake);
+  while(elem->next != NULL){
+    POINT elemPoint;
+    elemPoint.x = elem->x;
+    elemPoint.y = elem->y;
+    if(distance(point, elemPoint) < ZOOMFACTOR*2) return TRUE;
+    elem = elem->next;
+  }
+  return FALSE;
+}
+
+BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]){
+  if(check_collide_map(window, point, map)) return TRUE;
+  if(check_collide_snake(window, point, snake)) return TRUE;
+  return FALSE;
+}
+
+POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]){
+  POINT* empty = (POINT*) malloc(sizeof(POINT));
+  do{
+    empty->x = alea_int(window.game_width);
+    empty->y = alea_int(window.game_height); 
+  }while(check_collide(window, *empty, snake, map));
+  return empty;
 }
 
 BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
@@ -92,29 +119,26 @@ BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
   snakeHead.y = snake_get_head(snake)->y;
   if(distance(snakeHead, fruit->pos) < (ZOOMFACTOR*2)){
     fruit->oldPos = fruit->pos;
-    do{
-      fruit->pos = fruit_generate(window.game_width, window.game_height, ZOOMFACTOR)->pos;
-    }while(check_collide(window, fruit->pos, map));
+    fruit->pos = *find_empty(window, snake, map);
     *score = *score+1;
     snake_grow(snake);
   }
 
-  if(check_collide(window, snakeHead, map)){
-    return FALSE;
-  }
+  if(check_collide_map(window, snakeHead, map))return FALSE;
+  if(check_collide_snake(window, snakeHead, snake)) return FALSE;
   return TRUE;
 }
 
 void refresh(Window window, Snake* snake, Fruit* fruit, int score){
-  draw(window, fruit->oldPos, BG);
-
+  view_draw(window, fruit->oldPos, BG);
+ 
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
       if(map[i][j] == 'x'){
         POINT wall;
         wall.x = j*(window.game_width/MAP_SIZE);
         wall.y = i*(window.game_height/MAP_SIZE);
-        draw(window, wall, WALL);
+        view_draw(window, wall, WALL);
       }
     }
   }
@@ -125,12 +149,12 @@ void refresh(Window window, Snake* snake, Fruit* fruit, int score){
   while(body != NULL){
     point.x = body->x;
     point.y = body->y;
-    draw(window, point, BODY);
+    view_draw(window, point, BODY);
     body = body->next;
   }
-  draw(window, *snake->oldTailPos, BG);
+  view_draw(window, *snake->oldTailPos, BG);
 
-  draw(window, fruit->pos, FRUIT);
+  view_draw(window, fruit->pos, FRUIT);
 
   view_score(window, score);
 }

@@ -8,6 +8,6 @@ typedef struct Fruit {
 	POINT oldPos;
 } Fruit;
 
-Fruit* fruit_generate(int windowW, int windowH, int zoomfactor);
+Fruit* fruit_init();
 
 #endif // !DEBUG

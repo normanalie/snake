@@ -24,7 +24,7 @@ typedef struct Window{
 } Window;
 
 Window* view_init(int w);
-void draw(Window window, POINT point, CellType type);
+void view_draw(Window window, POINT point, CellType type);
 void view_erase(Window window);
 void view_score(Window window, int score);
 

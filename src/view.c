@@ -15,7 +15,7 @@ Window* view_init(int w){
   return window;
 }
 
-void draw_wall(Window window, POINT point){
+void view_draw_wall(Window window, POINT point){
   POINT topRight, botLeft;
   topRight.x = point.x+(window.game_width/MAP_SIZE);
   topRight.y = point.y+(window.game_height/MAP_SIZE);
@@ -25,10 +25,10 @@ void draw_wall(Window window, POINT point){
   return;
 }
 
-void draw(Window window, POINT point, CellType type){ 
+void view_draw(Window window, POINT point, CellType type){ 
   switch (type) {
     case WALL:
-      draw_wall(window, point);
+      view_draw_wall(window, point);
       break;
     case HEAD:
       draw_fill_circle(point, ZOOMFACTOR, blanc);
