@@ -115,6 +115,22 @@ void snake_move(Snake *snake, int maxX, int maxY){
   return;
 }
 
+BOOL snake_eat_self(Snake *snake){
+  int negativeMargin = snake->speed;
+  POINT snakeHead;
+  snakeHead.x = snake->head->x;
+  snakeHead.y = snake->head->y;
+  SnakeElem *elem = snake->head->next;
+  while(elem != NULL){
+    POINT elemPoint;
+    elemPoint.x = elem->x;
+    elemPoint.y = elem->y;
+    if(distance(elemPoint, snakeHead) < ZOOMFACTOR-negativeMargin) return TRUE;
+    elem = elem->next;
+  }
+  return FALSE;
+}
+
 SnakeElem* snake_get_tail(Snake* snake){
   SnakeElem *elem = snake->head;
   while(elem->next != NULL){

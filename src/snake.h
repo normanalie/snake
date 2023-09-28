@@ -27,6 +27,7 @@ Snake* snake_init(int x, int y, direction dir);
 void snake_free(Snake *snake);
 void snake_grow(Snake *snake); 
 void snake_move(Snake *snake, int maxX, int maxY);
+BOOL snake_eat_self(Snake* snake);
 SnakeElem* snake_get_tail(Snake *snake);
 SnakeElem* snake_get_head(Snake *snake);
 POINT* snake_get_old_tail(Snake* snake);

@@ -13,6 +13,7 @@ direction get_direction();
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]);
 BOOL check_collide_snake(Window window, POINT point, Snake* snake);
 BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
+BOOL check_collide_points(POINT a, POINT b); 
 POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
 BOOL update(Window window, Snake* snake, Fruit* fruit, int* score);
 void refresh(Window window, Snake* snake, Fruit* fruit, int score);
@@ -49,7 +50,7 @@ int main(int argc, char *argv[]){
 }
 
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
-  int negativeMargin = 10;
+  int negativeMargin = 8;
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
       if(map[i][j] == 'x'){
@@ -72,7 +73,7 @@ BOOL check_collide_snake(Window window, POINT point, Snake* snake){
     POINT elemPoint;
     elemPoint.x = elem->x;
     elemPoint.y = elem->y;
-    if(distance(point, elemPoint) < ZOOMFACTOR*2) return TRUE;
+    if(check_collide_points(point, elemPoint)) return TRUE;
     elem = elem->next;
   }
   return FALSE;
@@ -81,6 +82,11 @@ BOOL check_collide_snake(Window window, POINT point, Snake* snake){
 BOOL check_collide(Window window, POINT point, Snake* snake, char map[MAP_SIZE][MAP_SIZE]){
   if(check_collide_map(window, point, map)) return TRUE;
   if(check_collide_snake(window, point, snake)) return TRUE;
+  return FALSE;
+}
+
+BOOL check_collide_points(POINT a, POINT b){
+  if(distance(a, b) < ZOOMFACTOR*2) return TRUE;
   return FALSE;
 }
 
@@ -117,7 +123,7 @@ BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
   POINT snakeHead;
   snakeHead.x = snake_get_head(snake)->x;
   snakeHead.y = snake_get_head(snake)->y;
-  if(distance(snakeHead, fruit->pos) < (ZOOMFACTOR*2)){
+  if(check_collide_points(snakeHead, fruit->pos)){
     fruit->oldPos = fruit->pos;
     fruit->pos = *find_empty(window, snake, map);
     *score = *score+1;
@@ -125,7 +131,7 @@ BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
   }
 
   if(check_collide_map(window, snakeHead, map))return FALSE;
-  if(check_collide_snake(window, snakeHead, snake)) return FALSE;
+  if(snake_eat_self(snake)) return FALSE;
   return TRUE;
 }
 
