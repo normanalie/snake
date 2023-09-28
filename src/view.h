@@ -13,6 +13,7 @@ typedef enum CellType{
 	BODY,
 	WALL,
 	FRUIT,
+	GOLDFRUIT,
 	BG 
 } CellType;
 

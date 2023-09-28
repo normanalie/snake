@@ -8,6 +8,7 @@ Fruit* fruit_init(){
 	fruit->pos.y = -1;
 	fruit->oldPos.x = -1;
 	fruit->oldPos.y = -1;
+	fruit->type = FRUIT;
 	return fruit;
 
 }

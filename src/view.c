@@ -26,8 +26,8 @@ void view_draw_wall(Window window, POINT point){
   return;
 }
 
-void view_draw_apple(POINT point){
-  draw_fill_circle(point, ZOOMFACTOR, red);
+void view_draw_apple(POINT point, COULEUR color){
+  draw_fill_circle(point, ZOOMFACTOR, color);
   POINT leaf;
   leaf.x = point.x + 2;
   leaf.y = point.y + ZOOMFACTOR - 3;
@@ -55,7 +55,10 @@ void view_draw(Window window, POINT point, CellType type){
       draw_fill_circle(point, ZOOMFACTOR, yellow);
       break;
     case FRUIT:
-      view_draw_apple(point);
+      view_draw_apple(point, red);
+      break;
+    case GOLDFRUIT:
+      view_draw_apple(point, gold);
       break;
     case BG:
       draw_fill_circle(point, ZOOMFACTOR, black);

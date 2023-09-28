@@ -82,11 +82,23 @@ BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
   POINT snakeHead;
   snakeHead.x = snake_get_head(snake)->x;
   snakeHead.y = snake_get_head(snake)->y;
-  if(check_collide_points(snakeHead, fruit->pos)){
+  if(check_collide_points(snakeHead, fruit->pos)){ 
+    if(fruit->type == GOLDFRUIT){
+      *score = *score + 2;
+      snake_grow(snake);
+      snake_grow(snake);
+    }else{
+      *score = *score+1;
+      snake_grow(snake);
+    }
+
     fruit->oldPos = fruit->pos;
     fruit->pos = *find_empty(window, snake, map);
-    *score = *score+1;
-    snake_grow(snake);
+    if(alea_int(2)-1){
+      fruit->type = GOLDFRUIT;
+    }else{
+      fruit->type = FRUIT;
+    }
   }
 
   if(check_collide_map(window, snakeHead, map))return FALSE;
@@ -99,7 +111,7 @@ void refresh(Window window, Snake* snake, Fruit* fruit, int score){
     view_draw(window, fruit->oldPos, BG); 
   }
   if(fruit->pos.x >= 0 && fruit->pos.y >= 0){
-    view_draw(window, fruit->pos, FRUIT);
+    view_draw(window, fruit->pos, fruit->type);
   }
  
   POINT point;
