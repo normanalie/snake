@@ -26,6 +26,19 @@ void view_draw_wall(Window window, POINT point){
   return;
 }
 
+void view_draw_apple(POINT point){
+  draw_fill_circle(point, ZOOMFACTOR, red);
+  POINT leaf;
+  leaf.x = point.x + 2;
+  leaf.y = point.y + ZOOMFACTOR - 3;
+  draw_fill_circle(leaf, 3, green);
+  POINT bite;
+  bite.x = point.x + ZOOMFACTOR;
+  bite.y = point.y;
+  draw_fill_circle(bite, ZOOMFACTOR-3, black);
+  return;
+}
+
 void view_draw(Window window, POINT point, CellType type){ 
   switch (type) {
     case WALL:
@@ -42,7 +55,7 @@ void view_draw(Window window, POINT point, CellType type){
       draw_fill_circle(point, ZOOMFACTOR, yellow);
       break;
     case FRUIT:
-      draw_fill_circle(point, ZOOMFACTOR, red);
+      view_draw_apple(point);
       break;
     case BG:
       draw_fill_circle(point, ZOOMFACTOR, black);
@@ -67,7 +80,7 @@ void view_erase_score(Window window){
   origin.y = window.game_height;
   end.x = window.width;
   end.y = window.height;
-  draw_fill_rectangle(origin, end, black);
+  draw_fill_rectangle(origin, end, lightgrey);
   return;
 }
 
