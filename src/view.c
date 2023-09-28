@@ -1,5 +1,6 @@
 #include "view.h"
 #include "graphics/graphics.h"
+#include "map.h"
 #include <stdlib.h>
 
 Window* view_init(int w){
@@ -31,10 +32,14 @@ void view_draw(Window window, POINT point, CellType type){
       view_draw_wall(window, point);
       break;
     case HEAD:
-      draw_fill_circle(point, ZOOMFACTOR, blanc);
+      draw_fill_circle(point, ZOOMFACTOR, goldenrod);
+      POINT eye;
+      eye.x = point.x + ZOOMFACTOR/2;
+      eye.y = point.y + ZOOMFACTOR/3;
+      draw_fill_circle(eye, 3, black);
       break;
     case BODY:
-      draw_fill_circle(point, ZOOMFACTOR, jaune);
+      draw_fill_circle(point, ZOOMFACTOR, yellow);
       break;
     case FRUIT:
       draw_fill_circle(point, ZOOMFACTOR, red);

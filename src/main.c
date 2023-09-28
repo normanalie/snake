@@ -17,6 +17,7 @@ BOOL check_collide_points(POINT a, POINT b);
 POINT* find_empty(Window window, Snake* snake, char map[MAP_SIZE][MAP_SIZE]);
 BOOL update(Window window, Snake* snake, Fruit* fruit, int* score);
 void refresh(Window window, Snake* snake, Fruit* fruit, int score);
+void draw_map(Window window, char map[MAP_SIZE][MAP_SIZE]);
 
 int main(int argc, char *argv[]){
   int width = DEFAULT_SIZE;
@@ -37,6 +38,8 @@ int main(int argc, char *argv[]){
   fruit = fruit_init();
   fruit->pos = *find_empty(*window, snake, map);
  
+  draw_map(*window, map);
+
   BOOL inGame = TRUE;
   int dt = 0;
   while(inGame){
@@ -50,7 +53,7 @@ int main(int argc, char *argv[]){
 }
 
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
-  int negativeMargin = 8;
+  int negativeMargin = 9;
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
       if(map[i][j] == 'x'){
@@ -136,8 +139,32 @@ BOOL update(Window window, Snake* snake, Fruit* fruit, int *score){
 }
 
 void refresh(Window window, Snake* snake, Fruit* fruit, int score){
-  view_draw(window, fruit->oldPos, BG);
+  if(fruit->oldPos.x >= 0 && fruit->oldPos.y >= 0){
+    view_draw(window, fruit->oldPos, BG); 
+  }
+  if(fruit->pos.x >= 0 && fruit->pos.y >= 0){
+    view_draw(window, fruit->pos, FRUIT);
+  }
  
+  POINT point;
+  SnakeElem *head = snake_get_head(snake);
+  point.x = head->x;
+  point.y = head->y;
+  view_draw(window, point, HEAD);
+
+  SnakeElem *body = head->next;
+  while(body != NULL){
+    point.x = body->x;
+    point.y = body->y;
+    view_draw(window, point, BODY);
+    body = body->next;
+  }
+  view_draw(window, *snake->oldTailPos, BG);
+
+  view_score(window, score);
+}
+
+void draw_map(Window window, char map[MAP_SIZE][MAP_SIZE]){
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
       if(map[i][j] == 'x'){
@@ -148,21 +175,7 @@ void refresh(Window window, Snake* snake, Fruit* fruit, int score){
       }
     }
   }
-
- 
-  POINT point;
-  SnakeElem *body = snake_get_head(snake);
-  while(body != NULL){
-    point.x = body->x;
-    point.y = body->y;
-    view_draw(window, point, BODY);
-    body = body->next;
-  }
-  view_draw(window, *snake->oldTailPos, BG);
-
-  view_draw(window, fruit->pos, FRUIT);
-
-  view_score(window, score);
+  return;
 }
 
 
