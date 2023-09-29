@@ -1,4 +1,6 @@
 #include "physic.h"
+#include "graphics/graphics.h"
+#include "view.h"
 
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
   int negativeMargin = 10;
@@ -11,7 +13,7 @@ BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE])
         POINT center;
         center.x = (botLeft.x+(window.game_width/MAP_SIZE)/2);
         center.y = (botLeft.y+(window.game_height/MAP_SIZE)/2);
-        if(distance(point, center) < window.game_width/MAP_SIZE+ZOOMFACTOR/2-negativeMargin) return TRUE;
+        if(distance(point, center) < window.game_width/MAP_SIZE/2+ZOOMFACTOR) return TRUE;
       }
     }
   }
