@@ -1,4 +1,4 @@
-# CNAKE
+# SNAKE
 ## Snake game in C using SDL
 
 ### Compile:
