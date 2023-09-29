@@ -30,7 +30,7 @@ void view_draw_apple(POINT point, COULEUR color){
   draw_fill_circle(point, ZOOMFACTOR, color);
   POINT leaf;
   leaf.x = point.x + 2;
-  leaf.y = point.y + ZOOMFACTOR - 3;
+  leaf.y = point.y + ZOOMFACTOR - 4;
   draw_fill_circle(leaf, 3, green);
   POINT bite;
   bite.x = point.x + ZOOMFACTOR;
@@ -96,5 +96,48 @@ void view_score(Window window, int score){
   scoreTextOrigin.y =  window.game_height+fontSize*2;
   sprintf(scoreText, "Score: %d", score);
   aff_pol(scoreText, fontSize, scoreTextOrigin, red);
+  return;
+}
+
+void view_title_screen(Window window){
+  POINT origin, end;
+  origin.x = 0;
+  origin.y = 0;
+  end.x = window.width;
+  end.y = window.height;
+  draw_fill_rectangle(origin, end, lightgrey);
+
+  POINT textOrigin;
+  int fontSize = 40;
+  textOrigin.x = window.width/2 - fontSize*2;
+  textOrigin.y = window.height/2 + fontSize/2;
+  aff_pol("SNAKE", fontSize, textOrigin, red);
+  
+  fontSize = 22;
+  textOrigin.y -= fontSize*2;
+  aff_pol("Clic to start...", fontSize, textOrigin, lightsalmon);
+  return;
+}
+
+void view_game_over(Window window, int score){
+  POINT origin, end;
+  origin.x = 0;
+  origin.y = 0;
+  end.x = window.width;
+  end.y = window.height;
+  draw_fill_rectangle(origin, end, lightgrey);
+
+  POINT textOrigin;
+  int fontSize = 40;
+  textOrigin.x = window.width/2 - fontSize*3;
+  textOrigin.y = window.height/2 + fontSize/2;
+  aff_pol("GAME OVER", fontSize, textOrigin, red);
+
+  char scoreText[30];
+  sprintf(scoreText, "Your score: %d", score);
+  fontSize=22;
+  textOrigin.x += fontSize*2;
+  textOrigin.y -= fontSize*2;
+  aff_pol(scoreText, fontSize, textOrigin, lightsalmon);
   return;
 }

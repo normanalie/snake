@@ -23,7 +23,11 @@ int main(int argc, char *argv[]){
   }
   Window* window;
   window = view_init(width);
-  
+
+  view_title_screen(*window);
+  wait_clic();
+  view_erase(*window);
+
   int score = 0;
 
   Snake *snake;
@@ -36,7 +40,7 @@ int main(int argc, char *argv[]){
   fruit->pos = *find_empty(*window, snake, map);
  
   draw_map(*window, map);
-
+  
   BOOL inGame = TRUE;
   int dt = 0;
   while(inGame){
@@ -46,6 +50,9 @@ int main(int argc, char *argv[]){
     refresh(*window, snake, fruit, score); 
     dt = (int)(chrono_val()*1000);
   }
+
+  view_game_over(*window, score);
+  wait_escape();
   exit(0);
 }
 
