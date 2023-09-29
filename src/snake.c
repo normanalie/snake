@@ -142,3 +142,10 @@ SnakeElem* snake_get_tail(Snake* snake){
 SnakeElem* snake_get_head(Snake *snake){
   return snake->head;
 }
+
+POINT* snake_to_point(SnakeElem elem){
+  POINT* point = (POINT*) malloc(sizeof(POINT));
+  point->x = elem.x;
+  point->y = elem.y;
+  return point;
+}

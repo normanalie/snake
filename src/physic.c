@@ -3,7 +3,6 @@
 #include "view.h"
 
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){
-  int negativeMargin = 10;
   for(int i=0; i<MAP_SIZE; i++){
     for(int j=0; j<MAP_SIZE; j++){
       if(map[i][j] == 'x'){

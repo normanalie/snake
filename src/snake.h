@@ -31,4 +31,5 @@ BOOL snake_eat_self(Snake* snake);
 SnakeElem* snake_get_tail(Snake *snake);
 SnakeElem* snake_get_head(Snake *snake);
 POINT* snake_get_old_tail(Snake* snake);
+POINT* snake_to_point(SnakeElem elem);
 #endif

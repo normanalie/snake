@@ -3,7 +3,7 @@
 #include "map.h"
 #include <stdlib.h>
 
-Window* view_init(int w){
+Window* view_init(int w, int frameTime){
   int h = w+50; 
 
   Window* window = (Window*) malloc(sizeof(Window));
@@ -11,6 +11,7 @@ Window* view_init(int w){
   window->height = h;
   window->game_width = w;
   window->game_height = w;
+  window->frame_time = frameTime;
 
   init_graphics(window->width, window->height);
   return window;
@@ -39,6 +40,26 @@ void view_draw_apple(POINT point, COULEUR color){
   return;
 }
 
+void view_draw_particles(POINT point){
+  POINT particles[3];
+  for(int i=0; i<3; i++){
+    int randX = alea_int(ZOOMFACTOR-3);
+    int randY = alea_int(ZOOMFACTOR-3);
+    if(alea_int(2)){
+      particles[i].x = point.x + randX;
+    } else {
+      particles[i].x = point.x - randX;
+    }
+    if(alea_int(2)){
+      particles[i].y = point.y + randY;
+    } else {
+      particles[i].y = point.y - randY;
+    }
+    draw_fill_circle(particles[i], 1, gold);
+  }
+  return;
+}
+
 void view_draw(Window window, POINT point, CellType type){ 
   switch (type) {
     case WALL:
@@ -59,6 +80,9 @@ void view_draw(Window window, POINT point, CellType type){
       break;
     case GOLDFRUIT:
       view_draw_apple(point, gold);
+      break;
+    case PARTICLES:
+      view_draw_particles(point);
       break;
     case BG:
       draw_fill_circle(point, ZOOMFACTOR, black);

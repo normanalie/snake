@@ -14,6 +14,7 @@ typedef enum CellType{
 	WALL,
 	FRUIT,
 	GOLDFRUIT,
+	PARTICLES,
 	BG 
 } CellType;
 
@@ -22,9 +23,10 @@ typedef struct Window{
 	int height;
 	int game_width;
 	int game_height;
+	int frame_time;
 } Window;
 
-Window* view_init(int w);
+Window* view_init(int w, int frameTime);
 void view_draw(Window window, POINT point, CellType type);
 void view_erase(Window window);
 void view_score(Window window, int score);
