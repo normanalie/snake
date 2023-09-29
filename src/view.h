@@ -2,7 +2,7 @@
 #define VIEWH
 
 #include <stdio.h>
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "map.h"
 
 #define ZOOMFACTOR 10

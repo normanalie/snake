@@ -1,5 +1,5 @@
 #include "view.h"
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "map.h"
 #include <stdlib.h>
 

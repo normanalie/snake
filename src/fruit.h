@@ -1,7 +1,7 @@
 #ifndef FRUITH
 #define FRUITH
 
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "view.h"
 
 typedef struct Fruit {

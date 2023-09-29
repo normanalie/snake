@@ -1,5 +1,5 @@
 #include "physic.h"
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "view.h"
 
 BOOL check_collide_map(Window window, POINT point, char map[MAP_SIZE][MAP_SIZE]){

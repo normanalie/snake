@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "fruit.h"
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "snake.h"
 #include "fruit.h"
 #include "view.h"

@@ -28,15 +28,15 @@ build/fruit.o: src/fruit.h src/fruit.c
 build/physic.o: src/physic.h src/physic.c 
 	$(CC) $(CFLAGS) -c src/physic.c -o build/physic.o
 
-POLICEH=src/graphics/police.h
-build/graphics.o: src/graphics/graphics.c src/graphics/graphics.h
+POLICEH=lib/graphics/police.h
+build/graphics.o: lib/graphics/graphics.c lib/graphics/graphics.h
 	rm -f $(POLICEH)
 	touch $(POLICEH)
 	if test -e /usr/include/SDL_ttf.h;           then echo "#define SDL_TTF_OK" > $(POLICEH); fi
 	if test -e /usr/include/SDL/SDL_ttf.h;       then echo "#define SDL_TTF_OK" > $(POLICEH); fi
 	if test -e /usr/local/include/SDL_ttf.h;     then echo "#define SDL_TTF_OK" > $(POLICEH); fi
 	if test -e /usr/local/include/SDL/SDL_ttf.h; then echo "#define SDL_TTF_OK" > $(POLICEH); fi
-	$(CC) $(CFLAGS) -c src/graphics/graphics.c -o build/graphics.o
+	$(CC) $(CFLAGS) -c lib/graphics/graphics.c -o build/graphics.o
 
 
 clean:

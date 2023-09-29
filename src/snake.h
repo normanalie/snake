@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "directions.h"
 #include <stdlib.h>
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 
 typedef struct Snake Snake;
 typedef struct SnakeElem SnakeElem;

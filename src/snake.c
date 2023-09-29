@@ -1,5 +1,5 @@
 #include "snake.h"
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "view.h"
 #include <stdlib.h>
 

@@ -1,5 +1,5 @@
 #include "fruit.h"
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "view.h"
 
 Fruit* fruit_init(){

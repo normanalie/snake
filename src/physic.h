@@ -1,7 +1,7 @@
 #ifndef PHYSICH
 #define PHYSICH
 
-#include "graphics/graphics.h"
+#include "../lib/graphics/graphics.h"
 #include "view.h"
 #include "snake.h"
 #include "map.h"
